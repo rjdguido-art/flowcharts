@@ -41,49 +41,78 @@
       </header>
 
       <aside class="sidebar left-panel">
-        <section>
-          <h2>Nodes</h2>
-          <div class="node-grid">
-            <button class="node-template" data-type="start" draggable="true"><span class="swatch start"></span>Start</button>
-            <button class="node-template" data-type="task" draggable="true"><span class="swatch task"></span>Task</button>
-            <button class="node-template" data-type="decision" draggable="true"><span class="swatch decision"></span>Decision</button>
-            <button class="node-template" data-type="data" draggable="true"><span class="swatch data"></span>Data</button>
-            <button class="node-template" data-type="delay" draggable="true"><span class="swatch delay"></span>Delay</button>
-            <button class="node-template" data-type="end" draggable="true"><span class="swatch end"></span>End</button>
-          </div>
-        </section>
+        <nav class="tab-bar" aria-label="Builder panels">
+          <button class="tab-button active" type="button" data-tab-scope="left" data-tab-target="buildTab">Build</button>
+          <button class="tab-button" type="button" data-tab-scope="left" data-tab-target="canvasTab">Canvas</button>
+          <button class="tab-button" type="button" data-tab-scope="left" data-tab-target="searchTab">Search</button>
+        </nav>
 
-        <section>
-          <h2>Canvas</h2>
-          <div class="control-row">
-            <label for="zoomRange">Zoom</label>
-            <input id="zoomRange" type="range" min="35" max="180" value="100">
-            <output id="zoomOutput">100%</output>
-          </div>
-          <div class="control-row">
-            <label for="gridToggle">Grid</label>
-            <input id="gridToggle" type="checkbox" checked>
-          </div>
-          <div class="control-row">
-            <label for="snapToggle">Snap</label>
-            <input id="snapToggle" type="checkbox" checked>
-          </div>
-          <div class="control-row">
-            <label for="edgeStyle">Edges</label>
-            <select id="edgeStyle">
-              <option value="smooth">Smooth</option>
-              <option value="straight">Straight</option>
-              <option value="step">Step</option>
-            </select>
-          </div>
-          <button id="autoLayoutBtn" class="wide">Auto layout</button>
-        </section>
+        <div class="tab-panels">
+          <div class="tab-panel active" id="buildTab" data-tab-panel="left">
+            <section>
+              <h2>Nodes</h2>
+              <div class="node-grid">
+                <button class="node-template" data-type="start" draggable="true"><span class="swatch start"></span>Start</button>
+                <button class="node-template" data-type="task" draggable="true"><span class="swatch task"></span>Task</button>
+                <button class="node-template" data-type="decision" draggable="true"><span class="swatch decision"></span>Decision</button>
+                <button class="node-template" data-type="data" draggable="true"><span class="swatch data"></span>Data</button>
+                <button class="node-template" data-type="delay" draggable="true"><span class="swatch delay"></span>Delay</button>
+                <button class="node-template" data-type="end" draggable="true"><span class="swatch end"></span>End</button>
+              </div>
+            </section>
 
-        <section>
-          <h2>Search</h2>
-          <input id="searchInput" type="search" placeholder="Find nodes">
-          <div id="searchResults" class="search-results"></div>
-        </section>
+            <section>
+              <h2>Quick Actions</h2>
+              <button id="autoLayoutBtn" class="wide">Auto layout</button>
+              <button id="fitPanelBtn" class="wide">Fit to screen</button>
+              <button id="centerPanelBtn" class="wide">Center origin</button>
+            </section>
+          </div>
+
+          <div class="tab-panel" id="canvasTab" data-tab-panel="left">
+            <section>
+              <h2>Canvas</h2>
+              <div class="control-row">
+                <label for="zoomRange">Zoom</label>
+                <input id="zoomRange" type="range" min="35" max="180" value="100">
+                <output id="zoomOutput">100%</output>
+              </div>
+              <div class="control-row">
+                <label for="gridToggle">Grid</label>
+                <input id="gridToggle" type="checkbox" checked>
+              </div>
+              <div class="control-row">
+                <label for="snapToggle">Snap</label>
+                <input id="snapToggle" type="checkbox" checked>
+              </div>
+              <div class="control-row">
+                <label for="edgeStyle">Edges</label>
+                <select id="edgeStyle">
+                  <option value="smooth">Smooth</option>
+                  <option value="straight">Straight</option>
+                  <option value="step">Step</option>
+                </select>
+              </div>
+            </section>
+
+            <section>
+              <h2>View</h2>
+              <div class="canvas-presets">
+                <button type="button" class="zoom-preset" data-zoom="50">50%</button>
+                <button type="button" class="zoom-preset" data-zoom="100">100%</button>
+                <button type="button" class="zoom-preset" data-zoom="150">150%</button>
+              </div>
+            </section>
+          </div>
+
+          <div class="tab-panel" id="searchTab" data-tab-panel="left">
+            <section>
+              <h2>Search</h2>
+              <input id="searchInput" type="search" placeholder="Find nodes">
+              <div id="searchResults" class="search-results"></div>
+            </section>
+          </div>
+        </div>
       </aside>
 
       <main class="workspace">
@@ -102,88 +131,116 @@
       </main>
 
       <aside class="sidebar right-panel">
-        <section>
-          <h2>Inspector</h2>
-          <div id="emptyInspector" class="empty-state">Select a node or connection to edit it.</div>
-          <div id="multiInspector" class="inspector hidden">
-            <p><strong id="selectedCount">0</strong> nodes selected</p>
-            <div class="button-row">
-              <button type="button" id="duplicateMultiBtn">Duplicate</button>
-              <button type="button" id="deleteMultiBtn" class="danger">Delete</button>
-            </div>
-          </div>
-          <form id="nodeInspector" class="inspector hidden">
-            <label>
-              Title
-              <input id="nodeTitle" type="text">
-            </label>
-            <label>
-              Type
-              <select id="nodeType">
-                <option value="start">Start</option>
-                <option value="task">Task</option>
-                <option value="decision">Decision</option>
-                <option value="data">Data</option>
-                <option value="delay">Delay</option>
-                <option value="end">End</option>
-              </select>
-            </label>
-            <label>
-              Notes
-              <textarea id="nodeNotes" rows="5"></textarea>
-            </label>
-            <div class="two-col">
-              <label>
-                X
-                <input id="nodeX" type="number">
-              </label>
-              <label>
-                Y
-                <input id="nodeY" type="number">
-              </label>
-            </div>
-            <div class="button-row">
-              <button type="button" id="duplicateBtn">Duplicate</button>
-              <button type="button" id="addLinkedBtn">Link child</button>
-            </div>
-            <button type="button" id="deleteNodeBtn" class="danger wide">Delete node</button>
-          </form>
-          <form id="edgeInspector" class="inspector hidden">
-            <label>
-              Label
-              <input id="edgeLabel" type="text">
-            </label>
-            <label>
-              Tone
-              <select id="edgeTone">
-                <option value="default">Default</option>
-                <option value="success">Success</option>
-                <option value="warning">Warning</option>
-                <option value="danger">Danger</option>
-              </select>
-            </label>
-            <button type="button" id="deleteEdgeBtn" class="danger wide">Delete connection</button>
-          </form>
-        </section>
+        <nav class="tab-bar" aria-label="Details panels">
+          <button class="tab-button active" type="button" data-tab-scope="right" data-tab-target="inspectTab">Inspect</button>
+          <button class="tab-button" type="button" data-tab-scope="right" data-tab-target="overviewTab">Overview</button>
+          <button class="tab-button" type="button" data-tab-scope="right" data-tab-target="documentTab">File</button>
+        </nav>
 
-        <section>
-          <h2>Overview</h2>
-          <div class="stats">
-            <span><strong id="nodeCount">0</strong> nodes</span>
-            <span><strong id="edgeCount">0</strong> links</span>
+        <div class="tab-panels">
+          <div class="tab-panel active" id="inspectTab" data-tab-panel="right">
+            <section>
+              <h2>Inspector</h2>
+              <div id="emptyInspector" class="empty-state">Select a node or connection to edit it.</div>
+              <div id="multiInspector" class="inspector hidden">
+                <p><strong id="selectedCount">0</strong> nodes selected</p>
+                <div class="button-row">
+                  <button type="button" id="duplicateMultiBtn">Duplicate</button>
+                  <button type="button" id="deleteMultiBtn" class="danger">Delete</button>
+                </div>
+              </div>
+              <form id="nodeInspector" class="inspector hidden">
+                <label>
+                  Title
+                  <input id="nodeTitle" type="text">
+                </label>
+                <label>
+                  Type
+                  <select id="nodeType">
+                    <option value="start">Start</option>
+                    <option value="task">Task</option>
+                    <option value="decision">Decision</option>
+                    <option value="data">Data</option>
+                    <option value="delay">Delay</option>
+                    <option value="end">End</option>
+                  </select>
+                </label>
+                <label>
+                  Notes
+                  <textarea id="nodeNotes" rows="5"></textarea>
+                </label>
+                <div class="two-col">
+                  <label>
+                    X
+                    <input id="nodeX" type="number">
+                  </label>
+                  <label>
+                    Y
+                    <input id="nodeY" type="number">
+                  </label>
+                </div>
+                <div class="button-row">
+                  <button type="button" id="duplicateBtn">Duplicate</button>
+                  <button type="button" id="addLinkedBtn">Link child</button>
+                </div>
+                <button type="button" id="deleteNodeBtn" class="danger wide">Delete node</button>
+              </form>
+              <form id="edgeInspector" class="inspector hidden">
+                <label>
+                  Label
+                  <input id="edgeLabel" type="text">
+                </label>
+                <label>
+                  Tone
+                  <select id="edgeTone">
+                    <option value="default">Default</option>
+                    <option value="success">Success</option>
+                    <option value="warning">Warning</option>
+                    <option value="danger">Danger</option>
+                  </select>
+                </label>
+                <button type="button" id="deleteEdgeBtn" class="danger wide">Delete connection</button>
+              </form>
+            </section>
           </div>
-          <div class="mini-map" id="miniMap"></div>
-        </section>
 
-        <section>
-          <h2>Document</h2>
-          <label>
-            Map name
-            <input id="mapName" type="text" value="Untitled Workflow">
-          </label>
-          <button id="saveLocalBtn" class="wide">Save locally</button>
-          <button id="loadLocalBtn" class="wide">Load saved</button>
-        </section>
+          <div class="tab-panel" id="overviewTab" data-tab-panel="right">
+            <section>
+              <h2>Overview</h2>
+              <div class="stats">
+                <span><strong id="nodeCount">0</strong> nodes</span>
+                <span><strong id="edgeCount">0</strong> links</span>
+              </div>
+              <div class="mini-map" id="miniMap"></div>
+            </section>
+
+            <section>
+              <h2>Structure</h2>
+              <div id="outlineList" class="outline-list"></div>
+            </section>
+          </div>
+
+          <div class="tab-panel" id="documentTab" data-tab-panel="right">
+            <section>
+              <h2>Document</h2>
+              <label>
+                Map name
+                <input id="mapName" type="text" value="Untitled Workflow">
+              </label>
+              <button id="saveLocalBtn" class="wide">Save locally</button>
+              <button id="loadLocalBtn" class="wide">Load saved</button>
+            </section>
+
+            <section>
+              <h2>Exchange</h2>
+              <button id="exportPanelBtn" class="wide">Export JSON</button>
+              <label class="file-label wide">
+                Import JSON
+                <input id="importPanelInput" type="file" accept="application/json">
+              </label>
+            </section>
+          </div>
+        </div>
       </aside>
     </div>
 

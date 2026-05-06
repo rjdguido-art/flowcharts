@@ -12,6 +12,7 @@ const nodeNames = {
 
 const NODE_WIDTH = 176;
 const NODE_HEIGHT = 96;
+let renderFrame = null;
 
 const state = {
   mapName: "Untitled Workflow",
@@ -63,7 +64,8 @@ const els = {
   edgeTone: $("#edgeTone"),
   nodeCount: $("#nodeCount"),
   edgeCount: $("#edgeCount"),
-  miniMap: $("#miniMap")
+  miniMap: $("#miniMap"),
+  outlineList: $("#outlineList")
 };
 
 function uid(prefix) {
@@ -196,7 +198,7 @@ function screenToWorld(clientX, clientY) {
 }
 
 function applyView() {
-  const transform = `translate(${state.view.x}px, ${state.view.y}px) scale(${state.view.scale})`;
+  const transform = `translate3d(${state.view.x}px, ${state.view.y}px, 0) scale(${state.view.scale})`;
   els.nodeLayer.style.transform = transform;
   els.edgeLayer.style.transform = transform;
   els.gridLayer.style.backgroundSize = `${32 * state.view.scale}px ${32 * state.view.scale}px`;
@@ -532,7 +534,38 @@ function renderSearch() {
     });
 }
 
+function renderOutline() {
+  if (!els.outlineList) return;
+  els.outlineList.innerHTML = "";
+  if (!state.nodes.length) {
+    const empty = document.createElement("div");
+    empty.className = "outline-empty";
+    empty.textContent = "No nodes yet.";
+    els.outlineList.append(empty);
+    return;
+  }
+
+  state.nodes.forEach((node, index) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "outline-item";
+    if (state.selected?.type === "node" && state.selected.id === node.id) button.classList.add("active");
+    button.innerHTML = `<span class="swatch ${node.type}"></span><span></span>`;
+    button.querySelector("span:last-child").textContent = `${index + 1}. ${node.title}`;
+    button.addEventListener("click", () => {
+      selectItem("node", node.id);
+      focusNode(node);
+      setActiveTab("right", "inspectTab");
+    });
+    els.outlineList.append(button);
+  });
+}
+
 function render() {
+  if (renderFrame) {
+    cancelAnimationFrame(renderFrame);
+    renderFrame = null;
+  }
   els.app.dataset.theme = state.theme;
   els.app.classList.toggle("has-selection", Boolean(state.selected));
   els.gridLayer.classList.toggle("hidden", !state.showGrid);
@@ -541,9 +574,15 @@ function render() {
   renderInspector();
   renderMiniMap();
   renderSearch();
+  renderOutline();
   applyView();
   els.nodeCount.textContent = state.nodes.length;
   els.edgeCount.textContent = state.edges.length;
+}
+
+function requestRender() {
+  if (renderFrame) return;
+  renderFrame = requestAnimationFrame(render);
 }
 
 function syncControls() {
@@ -630,7 +669,7 @@ function onPointerMove(event) {
       node.x = snapValue(original.x + dx);
       node.y = snapValue(original.y + dy);
     });
-    render();
+    requestRender();
   }
   if (state.drag.type === "pan") {
     state.view.x = state.drag.x + event.clientX - state.drag.clientX;
@@ -710,6 +749,11 @@ function fitView() {
   applyView();
 }
 
+function centerOrigin() {
+  state.view = { x: 260, y: 120, scale: 1 };
+  applyView();
+}
+
 function autoLayout() {
   saveHistory();
   const byId = new Map(state.nodes.map((node) => [node.id, node]));
@@ -755,6 +799,42 @@ function exportJson() {
   a.click();
   URL.revokeObjectURL(a.href);
   setStatus("Exported JSON");
+}
+
+async function importJsonFromInput(input) {
+  const file = input.files[0];
+  if (!file) return;
+  try {
+    saveHistory();
+    restoreData(JSON.parse(await file.text()));
+    setStatus("Imported workflow");
+  } catch {
+    setStatus("Import failed");
+  }
+  input.value = "";
+}
+
+function setActiveTab(scope, targetId) {
+  $$(`[data-tab-scope="${scope}"]`).forEach((button) => {
+    const active = button.dataset.tabTarget === targetId;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-selected", String(active));
+  });
+  $$(`[data-tab-panel="${scope}"]`).forEach((panel) => {
+    panel.classList.toggle("active", panel.id === targetId);
+  });
+  renderMiniMap();
+}
+
+function bindTabs() {
+  $$(".tab-button").forEach((button) => {
+    button.setAttribute("role", "tab");
+    button.setAttribute("aria-selected", String(button.classList.contains("active")));
+    button.addEventListener("click", () => {
+      setActiveTab(button.dataset.tabScope, button.dataset.tabTarget);
+    });
+  });
+  $$(".tab-bar").forEach((bar) => bar.setAttribute("role", "tablist"));
 }
 
 function loadDemo() {
@@ -846,15 +926,20 @@ function bindEvents() {
   els.searchInput.addEventListener("input", renderSearch);
 
   $("#fitBtn").addEventListener("click", fitView);
-  $("#centerBtn").addEventListener("click", () => {
-    state.view = { x: 260, y: 120, scale: 1 };
-    applyView();
-  });
+  $("#fitPanelBtn").addEventListener("click", fitView);
+  $("#centerBtn").addEventListener("click", centerOrigin);
+  $("#centerPanelBtn").addEventListener("click", centerOrigin);
   $("#themeBtn").addEventListener("click", () => {
     state.theme = state.theme === "dark" ? "light" : "dark";
     render();
   });
   $("#autoLayoutBtn").addEventListener("click", autoLayout);
+  $$(".zoom-preset").forEach((button) => {
+    button.addEventListener("click", () => {
+      const rect = els.canvasWrap.getBoundingClientRect();
+      zoomAt(rect.left + rect.width / 2, rect.top + rect.height / 2, Number(button.dataset.zoom) / 100);
+    });
+  });
   $("#undoBtn").addEventListener("click", undo);
   $("#redoBtn").addEventListener("click", redo);
   $("#duplicateBtn").addEventListener("click", duplicateSelected);
@@ -872,18 +957,9 @@ function bindEvents() {
     render();
   });
   $("#exportBtn").addEventListener("click", exportJson);
-  $("#importInput").addEventListener("change", async (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
-    try {
-      saveHistory();
-      restoreData(JSON.parse(await file.text()));
-      setStatus("Imported workflow");
-    } catch {
-      setStatus("Import failed");
-    }
-    event.target.value = "";
-  });
+  $("#exportPanelBtn").addEventListener("click", exportJson);
+  $("#importInput").addEventListener("change", (event) => importJsonFromInput(event.target));
+  $("#importPanelInput").addEventListener("change", (event) => importJsonFromInput(event.target));
   $("#saveLocalBtn").addEventListener("click", () => {
     localStorage.setItem("workflow-map-creator", JSON.stringify(cloneData()));
     setStatus("Saved locally");
@@ -961,6 +1037,7 @@ function bindEvents() {
   });
 }
 
+bindTabs();
 bindEvents();
 syncControls();
 loadDemo();

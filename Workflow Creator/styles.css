@@ -64,6 +64,7 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  transition: background-color 220ms ease, color 220ms ease;
 }
 
 button,
@@ -86,7 +87,7 @@ button,
   justify-content: center;
   gap: 6px;
   cursor: pointer;
-  transition: border-color 140ms ease, background 140ms ease, transform 140ms ease;
+  transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
 }
 
 button:hover,
@@ -108,12 +109,14 @@ textarea {
   color: var(--text);
   padding: 9px 10px;
   outline: none;
+  transition: border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
 }
 
 input:focus,
 select:focus,
 textarea:focus {
   border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--selection);
 }
 
 textarea {
@@ -137,6 +140,8 @@ kbd {
   grid-template-columns: 260px minmax(0, 1fr) 300px;
   grid-template-rows: 64px minmax(0, 1fr);
   overflow: hidden;
+  background: var(--bg);
+  transition: background-color 220ms ease;
 }
 
 .topbar {
@@ -253,9 +258,13 @@ button:disabled {
 
 .sidebar {
   min-height: 0;
-  overflow: auto;
+  overflow: hidden;
   background: var(--panel);
   padding: 14px;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 14px;
+  transition: background-color 220ms ease, border-color 220ms ease, box-shadow 220ms ease, transform 220ms ease;
 }
 
 .left-panel {
@@ -266,10 +275,68 @@ button:disabled {
   border-left: 1px solid var(--line);
 }
 
-section + section {
+.tab-panel section + section {
   margin-top: 18px;
   padding-top: 18px;
   border-top: 1px solid var(--line);
+}
+
+.tab-bar {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel-2);
+}
+
+.tab-button {
+  min-width: 0;
+  min-height: 32px;
+  border-color: transparent;
+  background: transparent;
+  padding: 0 8px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.tab-button:hover {
+  background: var(--panel);
+}
+
+.tab-button.active {
+  border-color: var(--line);
+  background: var(--panel);
+  color: var(--text);
+  box-shadow: 0 6px 16px rgba(0, 61, 91, 0.08);
+}
+
+.tab-panels {
+  min-height: 0;
+  overflow: auto;
+  scrollbar-gutter: stable;
+}
+
+.tab-panel {
+  display: none;
+}
+
+.tab-panel.active {
+  display: block;
+  animation: panelIn 180ms ease-out both;
+}
+
+@keyframes panelIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 h2 {
@@ -358,12 +425,19 @@ input[type="checkbox"] {
   margin-top: 10px;
 }
 
+.canvas-presets {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
 .workspace {
   min-width: 0;
   min-height: 0;
   position: relative;
   overflow: hidden;
   background: var(--canvas);
+  transition: background-color 220ms ease;
 }
 
 .canvas-wrap {
@@ -388,6 +462,17 @@ input[type="checkbox"] {
   position: absolute;
   inset: 0;
   transform-origin: 0 0;
+  will-change: transform;
+}
+
+.edge-layer,
+.node-layer {
+  transition: transform 180ms ease;
+}
+
+.canvas-wrap.dragging .edge-layer,
+.canvas-wrap.dragging .node-layer {
+  transition: none;
 }
 
 .grid-layer {
@@ -395,6 +480,7 @@ input[type="checkbox"] {
     linear-gradient(var(--grid) 1px, transparent 1px),
     linear-gradient(90deg, var(--grid) 1px, transparent 1px);
   background-size: 32px 32px;
+  transition: opacity 180ms ease, background-position 90ms linear, background-size 90ms linear;
 }
 
 .grid-layer.hidden {
@@ -419,6 +505,7 @@ input[type="checkbox"] {
   stroke: #315f74;
   stroke-width: 2.5;
   pointer-events: none;
+  transition: stroke 180ms ease, stroke-width 180ms ease;
 }
 
 .edge-path.selected {
@@ -437,6 +524,7 @@ input[type="checkbox"] {
   stroke-width: 5px;
   font-size: 12px;
   pointer-events: none;
+  transition: fill 180ms ease, stroke 180ms ease;
 }
 
 .node-layer {
@@ -456,11 +544,18 @@ input[type="checkbox"] {
   pointer-events: auto;
   cursor: grab;
   overflow: hidden;
+  transition: border-color 160ms ease, box-shadow 160ms ease, outline-color 160ms ease, transform 180ms ease;
+  will-change: transform;
+}
+
+.canvas-wrap.dragging .node {
+  transition: border-color 160ms ease, box-shadow 160ms ease, outline-color 160ms ease;
 }
 
 .node.selected {
   border-color: var(--accent);
   outline: 3px solid var(--selection);
+  box-shadow: 0 18px 36px rgba(0, 61, 91, 0.18);
 }
 
 .node.connect-source {
@@ -512,6 +607,7 @@ input[type="checkbox"] {
   border: 1px dashed var(--accent);
   background: var(--selection);
   pointer-events: none;
+  transition: opacity 120ms ease;
 }
 
 .floating-help {
@@ -525,6 +621,7 @@ input[type="checkbox"] {
   color: var(--muted);
   font-size: 12px;
   pointer-events: none;
+  transition: opacity 180ms ease, transform 180ms ease;
 }
 
 .hidden {
@@ -595,6 +692,7 @@ input[type="checkbox"] {
   background: var(--canvas);
   position: relative;
   overflow: hidden;
+  transition: background-color 180ms ease, border-color 180ms ease;
 }
 
 .mini-node {
@@ -608,6 +706,45 @@ input[type="checkbox"] {
   height: 1px;
   background: var(--muted);
   transform-origin: 0 0;
+}
+
+.outline-list {
+  display: grid;
+  gap: 6px;
+}
+
+.outline-item {
+  min-width: 0;
+  justify-content: flex-start;
+  min-height: 34px;
+}
+
+.outline-item.active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.outline-item span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.outline-empty {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    scroll-behavior: auto !important;
+    transition-duration: 1ms !important;
+  }
 }
 
 @media (max-width: 1050px) {
@@ -659,7 +796,7 @@ input[type="checkbox"] {
   }
 
   .left-panel {
-    display: block;
+    display: grid;
     grid-row: 3;
     border-top: 1px solid var(--line);
     border-right: 0;
@@ -670,7 +807,7 @@ input[type="checkbox"] {
   }
 
   .app.has-selection .right-panel {
-    display: block;
+    display: grid;
     position: absolute;
     right: 10px;
     top: 122px;
