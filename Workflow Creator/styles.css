@@ -737,6 +737,85 @@ input[type="checkbox"] {
   line-height: 1.45;
 }
 
+.print-document {
+  display: none;
+}
+
+.print-map {
+  position: relative;
+  border: 1px solid #c8d8de;
+  background: #f9fcfd;
+  overflow: hidden;
+}
+
+.print-edge-layer {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+}
+
+.print-edge-path {
+  fill: none;
+  stroke: #315f74;
+  stroke-width: 2.25;
+}
+
+.print-edge-path.success { stroke: #008b8f; }
+.print-edge-path.warning { stroke: #5f8697; }
+.print-edge-path.danger { stroke: #8f3141; }
+
+.print-edge-label {
+  fill: #07364d;
+  paint-order: stroke;
+  stroke: #f9fcfd;
+  stroke-width: 5px;
+  font-size: 12px;
+}
+
+.print-node {
+  position: absolute;
+  transform-origin: 0 0;
+  border: 1px solid #c8d8de;
+  border-left: 5px solid #003d5b;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #07364d;
+  padding: 10px 11px;
+  overflow: hidden;
+}
+
+.print-node.start { border-left-color: #25e2cc; }
+.print-node.task { border-left-color: #003d5b; }
+.print-node.decision { border-left-color: #008b8f; }
+.print-node.data { border-left-color: #4aa8ba; }
+.print-node.delay { border-left-color: #7a9ead; }
+.print-node.end { border-left-color: #0b5272; }
+
+.print-node-type {
+  color: #607785;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.print-node h2 {
+  color: #003d5b;
+  font-size: 14px;
+  line-height: 1.2;
+  margin: 0;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.print-node p {
+  color: #5f7480;
+  font-size: 11px;
+  line-height: 1.3;
+  margin: 7px 0 0;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -821,5 +900,57 @@ input[type="checkbox"] {
 
   .floating-help {
     display: none;
+  }
+}
+
+@media print {
+  @page {
+    margin: 0.35in;
+    size: landscape;
+  }
+
+  html,
+  body {
+    height: auto;
+    background: #ffffff;
+  }
+
+  .app {
+    display: none !important;
+  }
+
+  .print-document {
+    display: block;
+    color: #07364d;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+
+  .print-header {
+    align-items: end;
+    border-bottom: 1px solid #c8d8de;
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+  }
+
+  .print-header h1 {
+    color: #003d5b;
+    font-size: 22px;
+    line-height: 1.2;
+    margin: 0;
+  }
+
+  .print-header p,
+  .print-empty {
+    color: #607785;
+    font-size: 12px;
+    margin: 0;
+  }
+
+  .print-map {
+    break-inside: avoid;
+    max-width: 100%;
   }
 }

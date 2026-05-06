@@ -801,6 +801,140 @@ function exportJson() {
   setStatus("Exported JSON");
 }
 
+function getWorkflowBounds(padding = 80) {
+  if (!state.nodes.length) return { minX: 0, minY: 0, width: 720, height: 420, padding };
+  const xs = state.nodes.flatMap((node) => [node.x, node.x + node.width]);
+  const ys = state.nodes.flatMap((node) => [node.y, node.y + node.height]);
+  const minX = Math.min(...xs) - padding;
+  const minY = Math.min(...ys) - padding;
+  return {
+    minX,
+    minY,
+    width: Math.max(1, Math.max(...xs) - minX + padding),
+    height: Math.max(1, Math.max(...ys) - minY + padding),
+    padding
+  };
+}
+
+function printPoint(point, bounds, scale) {
+  return {
+    x: (point.x - bounds.minX) * scale,
+    y: (point.y - bounds.minY) * scale
+  };
+}
+
+function printEdgePath(fromNode, toNode, bounds, scale) {
+  const from = printPoint(nodeCenter(fromNode), bounds, scale);
+  const to = printPoint(nodeCenter(toNode), bounds, scale);
+  if (state.edgeStyle === "straight") return `M ${from.x} ${from.y} L ${to.x} ${to.y}`;
+  if (state.edgeStyle === "step") {
+    const midX = from.x + (to.x - from.x) / 2;
+    return `M ${from.x} ${from.y} L ${midX} ${from.y} L ${midX} ${to.y} L ${to.x} ${to.y}`;
+  }
+  const distance = Math.max(90 * scale, Math.abs(to.x - from.x) * 0.45);
+  return `M ${from.x} ${from.y} C ${from.x + distance} ${from.y}, ${to.x - distance} ${to.y}, ${to.x} ${to.y}`;
+}
+
+function getPrintDocument() {
+  let printDocument = $("#printDocument");
+  if (!printDocument) {
+    printDocument = document.createElement("section");
+    printDocument.id = "printDocument";
+    printDocument.className = "print-document";
+    document.body.append(printDocument);
+  }
+  return printDocument;
+}
+
+function renderPrintDocument() {
+  const printDocument = getPrintDocument();
+  printDocument.replaceChildren();
+
+  const header = document.createElement("header");
+  header.className = "print-header";
+  const title = document.createElement("h1");
+  title.textContent = state.mapName || "Untitled Workflow";
+  const meta = document.createElement("p");
+  meta.textContent = `${state.nodes.length} nodes, ${state.edges.length} links`;
+  header.append(title, meta);
+  printDocument.append(header);
+
+  if (!state.nodes.length) {
+    const empty = document.createElement("p");
+    empty.className = "print-empty";
+    empty.textContent = "No workflow nodes to export.";
+    printDocument.append(empty);
+    return;
+  }
+
+  const bounds = getWorkflowBounds();
+  const scale = Math.min(1, 960 / bounds.width);
+  const width = Math.ceil(bounds.width * scale);
+  const height = Math.ceil(bounds.height * scale);
+  const map = document.createElement("div");
+  map.className = "print-map";
+  map.style.width = `${width}px`;
+  map.style.height = `${height}px`;
+
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("class", "print-edge-layer");
+  svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+  svg.setAttribute("width", String(width));
+  svg.setAttribute("height", String(height));
+  svg.innerHTML = `
+    <defs>
+      <marker id="print-arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+        <path d="M0,0 L0,6 L9,3 z" fill="#315f74"></path>
+      </marker>
+    </defs>
+  `;
+  state.edges.forEach((edge) => {
+    const from = getNode(edge.from);
+    const to = getNode(edge.to);
+    if (!from || !to) return;
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute("d", printEdgePath(from, to, bounds, scale));
+    path.setAttribute("marker-end", "url(#print-arrow)");
+    path.classList.add("print-edge-path", edge.tone || "default");
+    svg.append(path);
+    if (edge.label) {
+      const a = printPoint(nodeCenter(from), bounds, scale);
+      const b = printPoint(nodeCenter(to), bounds, scale);
+      const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      label.setAttribute("x", String((a.x + b.x) / 2));
+      label.setAttribute("y", String((a.y + b.y) / 2 - 8));
+      label.setAttribute("text-anchor", "middle");
+      label.classList.add("print-edge-label");
+      label.textContent = edge.label;
+      svg.append(label);
+    }
+  });
+  map.append(svg);
+
+  state.nodes.forEach((node) => {
+    const item = document.createElement("article");
+    item.className = `print-node ${node.type}`;
+    item.style.left = `${(node.x - bounds.minX) * scale}px`;
+    item.style.top = `${(node.y - bounds.minY) * scale}px`;
+    item.style.width = `${node.width}px`;
+    item.style.height = `${node.height}px`;
+    item.style.transform = `scale(${scale})`;
+    item.innerHTML = `<div class="print-node-type"></div><h2></h2><p></p>`;
+    item.querySelector(".print-node-type").textContent = nodeNames[node.type] || node.type;
+    item.querySelector("h2").textContent = node.title;
+    item.querySelector("p").textContent = node.notes || "";
+    map.append(item);
+  });
+
+  printDocument.append(map);
+}
+
+function exportPdf() {
+  renderPrintDocument();
+  setStatus("Choose Save as PDF in the print dialog");
+  requestAnimationFrame(() => window.print());
+}
+
 async function importJsonFromInput(input) {
   const file = input.files[0];
   if (!file) return;
@@ -958,6 +1092,8 @@ function bindEvents() {
   });
   $("#exportBtn").addEventListener("click", exportJson);
   $("#exportPanelBtn").addEventListener("click", exportJson);
+  $("#exportPdfBtn").addEventListener("click", exportPdf);
+  $("#exportPdfPanelBtn").addEventListener("click", exportPdf);
   $("#importInput").addEventListener("change", (event) => importJsonFromInput(event.target));
   $("#importPanelInput").addEventListener("change", (event) => importJsonFromInput(event.target));
   $("#saveLocalBtn").addEventListener("click", () => {
