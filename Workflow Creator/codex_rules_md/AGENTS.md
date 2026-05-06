@@ -10,6 +10,10 @@ Use these rules when assisting with this repository.
 - Preserve existing structure, names, and behavior unless the request asks for changes.
 - Explain what changed and why after making edits.
 - When a specialized rule file applies, follow it as an additional instruction layer.
+- All specialized rules inherit `GLOBAL-RULE-STANDARDS.md`.
+- Do not run or recommend destructive git, deployment, filesystem, credential, migration, or production actions without explicit user approval.
+- Use citations or source links for current, factual, research, financial, legal, medical, product, or market claims when sources are available.
+- Distinguish verified facts from assumptions, estimates, and recommendations.
 
 ## Available rule groups
 
@@ -55,3 +59,4 @@ Use these rules when assisting with this repository.
 - Use the most specific applicable rule.
 - If multiple rules apply, combine them without creating conflicting output requirements.
 - If the user asks for a format that conflicts with a rule, prioritize the user request.
+- If a secondary rule adds useful structure, apply only the parts that do not conflict with the primary rule or global safety standards.

@@ -2,6 +2,48 @@
 
 This file contains all converted rules in one place.
 
+## Shared Standards
+
+All rules inherit `GLOBAL-RULE-STANDARDS.md`. The shared standards are included below for convenience.
+
+# Global Rule Standards
+
+All rules in this package inherit these standards.
+
+## Activation
+
+- Apply a rule only when the user request clearly matches the rule purpose, keywords, or requested output.
+- If multiple rules apply, use the most specific rule as primary and borrow only compatible requirements from secondary rules.
+- If a user-requested format conflicts with a rule, follow the user format unless it would reduce safety, accuracy, or legality.
+
+## Evidence And Accuracy
+
+- Distinguish facts, assumptions, estimates, and recommendations.
+- For current, factual, legal, medical, financial, technical, product, market, or research claims, use reliable sources and include source links or citations when available.
+- State uncertainty when evidence is missing, stale, conflicting, or inferred.
+- Do not invent sources, data, code behavior, tool output, citations, or verification results.
+
+## Safety
+
+- Do not reveal, request, or store secrets unless the task explicitly requires secure secret-handling guidance.
+- Do not run or recommend destructive commands, production deployments, force pushes, credential changes, irreversible migrations, or high-impact automation without explicit user approval.
+- For security, finance, medical, legal, infrastructure, and production tasks, include risk notes and verification steps.
+
+## Output Quality
+
+- Prefer concise, structured outputs with clear headings only when structure helps.
+- Include file paths, commands, schemas, or examples when they make the answer directly usable.
+- When reviewing work, lead with findings ordered by severity and include concrete references.
+- When generating artifacts, specify the expected format and any assumptions.
+
+## Verification
+
+- Describe what was checked, what could not be checked, and any residual risk.
+- For code or automation changes, include relevant tests, dry-runs, validation commands, or manual checks.
+
+
+---
+
 ---
 name: scqa-writing-framework
 description: Structures content using the Situation, Complication, Question, Answer framework for clear, logical, and engaging narratives suitable for threads, articles, and reports.
@@ -62,6 +104,7 @@ When this rule is relevant, follow these behaviors:
 - SCQA blocks
 - Short paragraphs
 - Bullet highlights when useful
+- Audience, goal, and channel assumptions when not supplied
 
 ## Instructions
 
@@ -69,15 +112,18 @@ When this rule is relevant, follow these behaviors:
 - Keep sentences concise
 - Avoid unnecessary jargon
 - Maintain smooth flow
+- Preserve factual accuracy and cite sources when transforming sourced material.
 
 ## Constraints
 
 - Do not skip sections
 - Avoid repetition
 - Prioritize conciseness
+- Do not add unsupported claims to make the narrative more dramatic.
 
 ## Codex execution notes
 
+- Follow the shared standards in `../../GLOBAL-RULE-STANDARDS.md`.
 - Apply this rule only when the user request clearly matches the rule purpose.
 - Do not force this rule onto unrelated tasks.
 - Keep the final output practical, concise, and directly usable.
@@ -126,6 +172,8 @@ When this rule is relevant, follow these behaviors:
 - Platform-specific content
 - Structured sections
 - Engaging headlines/hooks
+- Source message and audience assumptions
+- Notes on any edits, compression, or omitted details
 
 ## Instructions
 
@@ -133,15 +181,19 @@ When this rule is relevant, follow these behaviors:
 - Identify key points
 - Rewrite in the target format
 - Keep consistent tone and readability
+- Preserve quotes, claims, and attribution when source material requires it.
+- Adapt length, CTA, and formatting to the named platform or channel.
 
 ## Constraints
 
 - Preserve meaning
 - Avoid verbosity
 - Format must match the channel style
+- Do not turn uncertain or nuanced claims into absolute claims.
 
 ## Codex execution notes
 
+- Follow the shared standards in `../../GLOBAL-RULE-STANDARDS.md`.
 - Apply this rule only when the user request clearly matches the rule purpose.
 - Do not force this rule onto unrelated tasks.
 - Keep the final output practical, concise, and directly usable.
@@ -189,20 +241,26 @@ When this rule is relevant, follow these behaviors:
 - Text aligned with style guide
 - Optional bullet structure
 - Clean, professional response
+- Style assumptions when no tone guide is provided
+- Before/after notes when editing existing text
 
 ## Instructions
 
 - Apply the defined tone to all input
 - Check for style inconsistencies
 - Adjust language, structure, and formatting
+- Preserve factual meaning, required terminology, and compliance language.
+- Ask for or infer the target audience only when it materially affects tone.
 
 ## Constraints
 
 - Do not deviate from the selected tone
 - Maintain clarity
+- Do not sacrifice accuracy or accessibility for style.
 
 ## Codex execution notes
 
+- Follow the shared standards in `../../GLOBAL-RULE-STANDARDS.md`.
 - Apply this rule only when the user request clearly matches the rule purpose.
 - Do not force this rule onto unrelated tasks.
 - Keep the final output practical, concise, and directly usable.
@@ -248,20 +306,26 @@ When this rule is relevant, follow these behaviors:
 
 - Concise paragraph
 - Optional bullet points
+- Key omissions or scope limits when summarizing selectively
+- Source references when the input includes citations or source labels
 
 ## Instructions
 
 - Identify main points
 - Remove redundancy
 - Produce a readable, actionable summary
+- Preserve important caveats, dates, quantities, and named entities.
+- Separate summary from recommendations when both are requested.
 
 ## Constraints
 
 - Do not miss critical information
 - Do not add filler
+- Do not add conclusions not supported by the source text.
 
 ## Codex execution notes
 
+- Follow the shared standards in `../../GLOBAL-RULE-STANDARDS.md`.
 - Apply this rule only when the user request clearly matches the rule purpose.
 - Do not force this rule onto unrelated tasks.
 - Keep the final output practical, concise, and directly usable.
@@ -311,6 +375,8 @@ When this rule is relevant, follow these behaviors:
 - Bullet points
 - Hooks
 - Conclusion
+- Audience, offer, channel, and conversion goal
+- Claims or proof points separated from creative language
 
 ## Instructions
 
@@ -318,14 +384,18 @@ When this rule is relevant, follow these behaviors:
 - Organize main points clearly
 - Include an actionable CTA
 - Avoid unnecessary filler
+- Keep claims accurate, specific, and supportable.
+- Match CTA strength to the user intent and funnel stage.
 
 ## Constraints
 
 - Maintain readability
 - Do not overcomplicate the copy
+- Do not create deceptive urgency, false scarcity, or unsupported performance claims.
 
 ## Codex execution notes
 
+- Follow the shared standards in `../../GLOBAL-RULE-STANDARDS.md`.
 - Apply this rule only when the user request clearly matches the rule purpose.
 - Do not force this rule onto unrelated tasks.
 - Keep the final output practical, concise, and directly usable.
@@ -372,6 +442,9 @@ When this rule is relevant, follow these behaviors:
 - Diagram title
 - Nodes and connections
 - Layout suggestion
+- Output format, such as outline, Mermaid, or Excalidraw JSON, when requested
+- Node ids, labels, types, and connection labels for complex diagrams
+- Assumptions and omitted details
 
 ## Instructions
 
@@ -379,14 +452,20 @@ When this rule is relevant, follow these behaviors:
 - Create nodes
 - Connect nodes logically
 - Suggest a layout
+- Keep node labels short and action-oriented.
+- Use consistent directionality and group related nodes.
+- Ask or state the target format before producing tool-specific JSON when unclear.
 
 ## Constraints
 
 - Avoid clutter
 - Maintain clarity
+- Do not claim a diagram is valid Excalidraw JSON unless the JSON structure is actually produced.
+- Avoid crossing connectors when a simpler layout is possible.
 
 ## Codex execution notes
 
+- Follow the shared standards in `../../GLOBAL-RULE-STANDARDS.md`.
 - Apply this rule only when the user request clearly matches the rule purpose.
 - Do not force this rule onto unrelated tasks.
 - Keep the final output practical, concise, and directly usable.
@@ -434,20 +513,26 @@ When this rule is relevant, follow these behaviors:
 - Headings
 - Visual cues
 - Optional icons or markers
+- Target audience and format assumptions
+- Suggested hierarchy, grouping, and reading order
 
 ## Instructions
 
 - Extract key points
 - Organize content visually
 - Apply concise formatting
+- Preserve data labels, units, source notes, and caveats.
+- Use visual cues that support comprehension rather than decoration.
 
 ## Constraints
 
 - Avoid excessive text
 - Maintain clarity
+- Do not distort data or imply unsupported comparisons.
 
 ## Codex execution notes
 
+- Follow the shared standards in `../../GLOBAL-RULE-STANDARDS.md`.
 - Apply this rule only when the user request clearly matches the rule purpose.
 - Do not force this rule onto unrelated tasks.
 - Keep the final output practical, concise, and directly usable.
@@ -494,20 +579,28 @@ When this rule is relevant, follow these behaviors:
 - Nodes
 - Connections
 - Layout guidance
+- Decision labels and branch conditions
+- Start and end states
+- Optional Mermaid or JSON when requested
 
 ## Instructions
 
 - Identify steps and decisions
 - Map conditional paths
 - Maintain logical flow
+- Use yes/no or mutually exclusive branch labels where possible.
+- Make loops explicit and avoid hidden terminal states.
+- Validate that every decision branch resolves to another step or an end state.
 
 ## Constraints
 
 - Keep diagrams simple
 - Avoid unnecessary nodes
+- Do not merge branches that have different outcomes without explaining the merge.
 
 ## Codex execution notes
 
+- Follow the shared standards in `../../GLOBAL-RULE-STANDARDS.md`.
 - Apply this rule only when the user request clearly matches the rule purpose.
 - Do not force this rule onto unrelated tasks.
 - Keep the final output practical, concise, and directly usable.
@@ -555,20 +648,27 @@ When this rule is relevant, follow these behaviors:
 - Layout instructions
 - Element positioning
 - Optional visual hints
+- Accessibility and responsive behavior notes
+- Priority recommendations separated from optional polish
+- Assumptions about users, device sizes, and constraints
 
 ## Instructions
 
 - Analyze the input design
 - Suggest an optimal layout
 - Maintain readability and hierarchy
+- Consider keyboard flow, contrast, tap targets, empty states, and error states.
+- Match recommendations to the product context instead of defaulting to generic landing-page patterns.
 
 ## Constraints
 
 - Do not overcrowd the layout
 - Prioritize clarity
+- Do not recommend inaccessible contrast, tiny touch targets, or text that depends only on color.
 
 ## Codex execution notes
 
+- Follow the shared standards in `../../GLOBAL-RULE-STANDARDS.md`.
 - Apply this rule only when the user request clearly matches the rule purpose.
 - Do not force this rule onto unrelated tasks.
 - Keep the final output practical, concise, and directly usable.
@@ -615,20 +715,29 @@ When this rule is relevant, follow these behaviors:
 - Key insights
 - Supporting details
 - Summary paragraph
+- Source references for factual claims when available
+- Confidence levels or caveats for uncertain findings
+- Open questions or missing data
 
 ## Instructions
 
 - Identify key points
 - Remove irrelevant content
 - Organize logically
+- Group evidence by theme and strength.
+- Preserve important dissenting or conflicting evidence.
+- Separate source-supported findings from synthesis and recommendations.
 
 ## Constraints
 
 - Avoid generic summaries
 - Focus on utility
+- Do not omit material contradictions.
+- Do not overstate certainty beyond the evidence.
 
 ## Codex execution notes
 
+- Follow the shared standards in `../../GLOBAL-RULE-STANDARDS.md`.
 - Apply this rule only when the user request clearly matches the rule purpose.
 - Do not force this rule onto unrelated tasks.
 - Keep the final output practical, concise, and directly usable.
@@ -676,20 +785,29 @@ When this rule is relevant, follow these behaviors:
 - Step-by-step explanation
 - Key actors and actions
 - Summary insights
+- Transaction hashes, wallet addresses, contract addresses, chain, and block/time when available
+- Links to explorers or data sources when available
+- Confidence notes for inferred labels or entity attribution
 
 ## Instructions
 
 - Trace wallet and token flows
 - Identify key interactions
 - Summarize in plain language
+- Verify chain, token decimals, contract type, and event direction before drawing conclusions.
+- Label unknown wallets as unknown unless a reliable source supports attribution.
+- Distinguish transfers, swaps, approvals, mints, burns, bridge events, and contract calls.
 
 ## Constraints
 
 - Avoid jargon
 - Focus on clarity
+- Do not infer identity, intent, profit/loss, or wrongdoing without evidence.
+- Do not provide financial advice from transaction analysis alone.
 
 ## Codex execution notes
 
+- Follow the shared standards in `../../GLOBAL-RULE-STANDARDS.md`.
 - Apply this rule only when the user request clearly matches the rule purpose.
 - Do not force this rule onto unrelated tasks.
 - Keep the final output practical, concise, and directly usable.
@@ -733,23 +851,32 @@ When this rule is relevant, follow these behaviors:
 
 ## Output requirements
 
-- Verified sources
-- Key insights
-- Notes on reliability
+- Source list with links or citations
+- Reliability rating and rationale
+- Publication or access date when relevant
+- Key insights supported by sources
+- Bias, uncertainty, and conflict notes
 
 ## Instructions
 
 - Check references
 - Evaluate author and date
 - Highlight trustworthy content
+- Prefer primary sources, official documentation, peer-reviewed material, public records, or direct data over summaries.
+- Cross-check important claims against more than one source when possible.
+- Separate verified facts from interpretation.
+- Flag stale, missing, promotional, anonymous, or unverifiable sources.
 
 ## Constraints
 
 - Avoid unverified information
 - Prioritize high-quality sources
+- Do not fabricate citations or claim a source says something it does not support.
+- Do not treat source quantity as a substitute for source quality.
 
 ## Codex execution notes
 
+- Follow the shared standards in `../../GLOBAL-RULE-STANDARDS.md`.
 - Apply this rule only when the user request clearly matches the rule purpose.
 - Do not force this rule onto unrelated tasks.
 - Keep the final output practical, concise, and directly usable.
@@ -796,20 +923,29 @@ When this rule is relevant, follow these behaviors:
 - Bullet comparison
 - Strengths and weaknesses
 - Key takeaways
+- Source-backed evidence
+- Date or version context for time-sensitive comparisons
+- Recommendation with assumptions and tradeoffs
 
 ## Instructions
 
 - Identify competitors or tools
 - Compare features
 - Highlight differences and risks
+- Verify current facts from primary or reliable sources when the comparison may affect spend, adoption, or strategy.
+- Separate objective facts, inferred positioning, and recommendations.
+- Include pricing, availability, limitations, and switching costs when relevant.
 
 ## Constraints
 
 - Avoid bias
 - Focus on actionable insights
+- Do not rely only on marketing copy when independent or primary data is available.
+- Do not present outdated feature or pricing information as current.
 
 ## Codex execution notes
 
+- Follow the shared standards in `../../GLOBAL-RULE-STANDARDS.md`.
 - Apply this rule only when the user request clearly matches the rule purpose.
 - Do not force this rule onto unrelated tasks.
 - Keep the final output practical, concise, and directly usable.
@@ -856,20 +992,26 @@ When this rule is relevant, follow these behaviors:
 - Structured framework
 - Key points
 - Optional notes
+- Definitions, assumptions, and unresolved questions when helpful
+- Source references when structuring sourced research
 
 ## Instructions
 
 - Identify major topics
 - Group related ideas
 - Present clearly and concisely
+- Preserve relationships, hierarchy, dependencies, and caveats.
+- Choose the structure that best fits the material, such as outline, table, taxonomy, timeline, or decision tree.
 
 ## Constraints
 
 - Avoid ambiguity
 - Maintain readability
+- Do not flatten important nuance just to make the structure simpler.
 
 ## Codex execution notes
 
+- Follow the shared standards in `../../GLOBAL-RULE-STANDARDS.md`.
 - Apply this rule only when the user request clearly matches the rule purpose.
 - Do not force this rule onto unrelated tasks.
 - Keep the final output practical, concise, and directly usable.
@@ -917,6 +1059,8 @@ When this rule is relevant, follow these behaviors:
 - Hook
 - Content sections
 - Closing summary
+- Target audience, platform, length, and CTA assumptions
+- Beats, narration, and visual notes when useful
 
 ## Instructions
 
@@ -924,14 +1068,18 @@ When this rule is relevant, follow these behaviors:
 - Organize main points
 - Maintain pacing
 - Include a CTA
+- Keep claims supportable and match pacing to the requested duration.
+- Mark optional b-roll, on-screen text, or editing notes separately from spoken script.
 
 ## Constraints
 
 - Avoid filler
 - Maintain audience attention
+- Avoid clickbait that misrepresents the content.
 
 ## Codex execution notes
 
+- Follow the shared standards in `../../GLOBAL-RULE-STANDARDS.md`.
 - Apply this rule only when the user request clearly matches the rule purpose.
 - Do not force this rule onto unrelated tasks.
 - Keep the final output practical, concise, and directly usable.
@@ -978,20 +1126,26 @@ When this rule is relevant, follow these behaviors:
 - Editing steps
 - Scene notes
 - Transition plan
+- Asset assumptions and missing asset notes
+- Timing, pacing, and accessibility recommendations
 
 ## Instructions
 
 - Identify key scenes
 - Suggest cuts and transitions
 - Optimize for engagement
+- Preserve narrative continuity and factual meaning.
+- Include caption, audio, and contrast considerations when relevant.
 
 ## Constraints
 
 - Avoid excessive edits
 - Preserve story clarity
+- Do not recommend effects that obscure important information.
 
 ## Codex execution notes
 
+- Follow the shared standards in `../../GLOBAL-RULE-STANDARDS.md`.
 - Apply this rule only when the user request clearly matches the rule purpose.
 - Do not force this rule onto unrelated tasks.
 - Keep the final output practical, concise, and directly usable.
@@ -1037,20 +1191,26 @@ When this rule is relevant, follow these behaviors:
 
 - Hook sentence
 - Optional follow-up intro
+- Audience and platform assumptions
+- Multiple variants when exploration is useful
 
 ## Instructions
 
 - Focus on curiosity or bold statements
 - Keep the hook concise
 - Match audience interest
+- Keep hooks truthful to the content that follows.
+- Vary angle, specificity, and emotional intensity across variants.
 
 ## Constraints
 
 - Avoid generic hooks
 - Maintain relevance
+- Do not use misleading clickbait or unsupported claims.
 
 ## Codex execution notes
 
+- Follow the shared standards in `../../GLOBAL-RULE-STANDARDS.md`.
 - Apply this rule only when the user request clearly matches the rule purpose.
 - Do not force this rule onto unrelated tasks.
 - Keep the final output practical, concise, and directly usable.
@@ -1096,20 +1256,29 @@ When this rule is relevant, follow these behaviors:
 
 - Caption text blocks
 - Timing cues
+- Requested subtitle format, such as SRT, VTT, or plain caption blocks
+- Speaker labels when needed for clarity
+- Notes for uncertain or inaudible words
 
 ## Instructions
 
 - Format each line for clarity
 - Match timing to speech
 - Maintain readability standards
+- Keep captions to one or two lines per cue where possible.
+- Use readable line breaks and avoid splitting names, numbers, or short phrases awkwardly.
+- Preserve meaning while trimming filler only when the user asks for edited captions.
 
 ## Constraints
 
 - Avoid long lines
 - Keep text clear and concise
+- Do not invent timing if no timing information is provided; mark timing as estimated or request it.
+- Do not change spoken meaning unless asked to rewrite.
 
 ## Codex execution notes
 
+- Follow the shared standards in `../../GLOBAL-RULE-STANDARDS.md`.
 - Apply this rule only when the user request clearly matches the rule purpose.
 - Do not force this rule onto unrelated tasks.
 - Keep the final output practical, concise, and directly usable.
@@ -1153,23 +1322,29 @@ When this rule is relevant, follow these behaviors:
 
 ## Output requirements
 
-- Issues found
-- Suggested fixes
-- Optional summary
+- Findings first, ordered by severity
+- File and line references for each finding when available
+- Suggested fixes or mitigation
+- Test gaps and residual risk
+- Optional summary after findings
 
 ## Instructions
 
-- Analyze code line by line
-- Highlight errors or inefficiencies
-- Suggest improvements
+- Analyze the changed or relevant code path before commenting.
+- Prioritize bugs, regressions, security issues, data loss, performance risks, and missing tests over style preferences.
+- Cite concrete evidence with file paths, line numbers, inputs, outputs, or failing scenarios.
+- If no issues are found, say so clearly and mention remaining verification limits.
 
 ## Constraints
 
 - Maintain accuracy
 - Avoid false positives
+- Do not invent file references, test results, or behavior.
+- Do not bury findings under a long summary.
 
 ## Codex execution notes
 
+- Follow the shared standards in `../../GLOBAL-RULE-STANDARDS.md`.
 - Apply this rule only when the user request clearly matches the rule purpose.
 - Do not force this rule onto unrelated tasks.
 - Keep the final output practical, concise, and directly usable.
@@ -1216,6 +1391,8 @@ When this rule is relevant, follow these behaviors:
 - Goal
 - Stepwise actions
 - Tools and instructions
+- Dependencies, owners, and approval gates
+- Failure handling and verification checkpoints
 
 ## Instructions
 
@@ -1223,14 +1400,19 @@ When this rule is relevant, follow these behaviors:
 - Break it into steps
 - Assign tools
 - Optimize for efficiency
+- Identify steps that can run in parallel versus steps that depend on previous results.
+- Add human approval points for irreversible, costly, security-sensitive, or production-impacting actions.
+- Include success criteria for each workflow phase.
 
 ## Constraints
 
 - Avoid vague instructions
 - Maintain logical flow
+- Do not automate unsafe actions without explicit approval and rollback planning.
 
 ## Codex execution notes
 
+- Follow the shared standards in `../../GLOBAL-RULE-STANDARDS.md`.
 - Apply this rule only when the user request clearly matches the rule purpose.
 - Do not force this rule onto unrelated tasks.
 - Keep the final output practical, concise, and directly usable.
@@ -1277,20 +1459,28 @@ When this rule is relevant, follow these behaviors:
 - Skill name
 - Description
 - Instruction steps
+- Trigger conditions and non-trigger conditions
+- Inputs, outputs, constraints, and verification guidance
+- Safe handling notes for sensitive domains
 
 ## Instructions
 
 - Accept an input goal
 - Define role, task, and process
 - Output a structured `.md` skill
+- Use clear metadata that lets the skill be selected only when relevant.
+- Include examples only when they reduce ambiguity.
+- Keep instructions actionable and testable.
 
 ## Constraints
 
 - Maintain clarity
 - Ensure usability
+- Do not create skills that override higher-priority safety, privacy, or tool-use rules.
 
 ## Codex execution notes
 
+- Follow the shared standards in `../../GLOBAL-RULE-STANDARDS.md`.
 - Apply this rule only when the user request clearly matches the rule purpose.
 - Do not force this rule onto unrelated tasks.
 - Keep the final output practical, concise, and directly usable.
@@ -1331,29 +1521,37 @@ When this rule is relevant, follow these behaviors:
 - Commit and version guidance
 - Deployment suggestions
 - Workflow optimization
+- Safety gate identification
+- Dry-run and rollback planning
 
 ## Output requirements
 
-- Task instructions
-- Stepwise guide
-- Automation recommendations
+- Current state and assumptions
+- Stepwise commands or actions
+- Risk level and approval requirements
+- Verification and rollback plan
+- Automation recommendations, when safe
 
 ## Instructions
 
 - Analyze project requirements
-- Suggest DevOps actions
-- Optimize workflow efficiency
+- Inspect git status, branch, remotes, config, and relevant deployment files before suggesting actions.
+- Prefer dry-runs, previews, and non-destructive checks before state-changing commands.
+- Ask for explicit approval before production deployments, force pushes, destructive filesystem changes, credential changes, database migrations, or irreversible infrastructure actions.
+- Never print or commit secrets; refer to secret names and secure storage locations instead.
+- Optimize workflow efficiency only after preserving safety and recoverability.
 
 ## Constraints
 
 - Ensure accuracy
 - Avoid redundant steps
+- Do not run destructive commands without explicit user approval.
+- Do not assume a deployment target, environment, or remote branch when it can be verified.
+- Include rollback guidance for high-impact changes.
 
 ## Codex execution notes
 
+- Follow the shared standards in `../../GLOBAL-RULE-STANDARDS.md`.
 - Apply this rule only when the user request clearly matches the rule purpose.
 - Do not force this rule onto unrelated tasks.
 - Keep the final output practical, concise, and directly usable.
-
-
----

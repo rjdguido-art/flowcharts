@@ -37,20 +37,29 @@ When this rule is relevant, follow these behaviors:
 - Bullet comparison
 - Strengths and weaknesses
 - Key takeaways
+- Source-backed evidence
+- Date or version context for time-sensitive comparisons
+- Recommendation with assumptions and tradeoffs
 
 ## Instructions
 
 - Identify competitors or tools
 - Compare features
 - Highlight differences and risks
+- Verify current facts from primary or reliable sources when the comparison may affect spend, adoption, or strategy.
+- Separate objective facts, inferred positioning, and recommendations.
+- Include pricing, availability, limitations, and switching costs when relevant.
 
 ## Constraints
 
 - Avoid bias
 - Focus on actionable insights
+- Do not rely only on marketing copy when independent or primary data is available.
+- Do not present outdated feature or pricing information as current.
 
 ## Codex execution notes
 
+- Follow the shared standards in `../../GLOBAL-RULE-STANDARDS.md`.
 - Apply this rule only when the user request clearly matches the rule purpose.
 - Do not force this rule onto unrelated tasks.
 - Keep the final output practical, concise, and directly usable.

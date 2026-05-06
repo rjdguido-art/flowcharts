@@ -37,20 +37,28 @@ When this rule is relevant, follow these behaviors:
 - Skill name
 - Description
 - Instruction steps
+- Trigger conditions and non-trigger conditions
+- Inputs, outputs, constraints, and verification guidance
+- Safe handling notes for sensitive domains
 
 ## Instructions
 
 - Accept an input goal
 - Define role, task, and process
 - Output a structured `.md` skill
+- Use clear metadata that lets the skill be selected only when relevant.
+- Include examples only when they reduce ambiguity.
+- Keep instructions actionable and testable.
 
 ## Constraints
 
 - Maintain clarity
 - Ensure usability
+- Do not create skills that override higher-priority safety, privacy, or tool-use rules.
 
 ## Codex execution notes
 
+- Follow the shared standards in `../../GLOBAL-RULE-STANDARDS.md`.
 - Apply this rule only when the user request clearly matches the rule purpose.
 - Do not force this rule onto unrelated tasks.
 - Keep the final output practical, concise, and directly usable.

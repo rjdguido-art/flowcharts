@@ -36,20 +36,26 @@ When this rule is relevant, follow these behaviors:
 
 - Concise paragraph
 - Optional bullet points
+- Key omissions or scope limits when summarizing selectively
+- Source references when the input includes citations or source labels
 
 ## Instructions
 
 - Identify main points
 - Remove redundancy
 - Produce a readable, actionable summary
+- Preserve important caveats, dates, quantities, and named entities.
+- Separate summary from recommendations when both are requested.
 
 ## Constraints
 
 - Do not miss critical information
 - Do not add filler
+- Do not add conclusions not supported by the source text.
 
 ## Codex execution notes
 
+- Follow the shared standards in `../../GLOBAL-RULE-STANDARDS.md`.
 - Apply this rule only when the user request clearly matches the rule purpose.
 - Do not force this rule onto unrelated tasks.
 - Keep the final output practical, concise, and directly usable.

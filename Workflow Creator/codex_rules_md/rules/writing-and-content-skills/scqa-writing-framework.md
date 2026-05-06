@@ -58,6 +58,7 @@ When this rule is relevant, follow these behaviors:
 - SCQA blocks
 - Short paragraphs
 - Bullet highlights when useful
+- Audience, goal, and channel assumptions when not supplied
 
 ## Instructions
 
@@ -65,15 +66,18 @@ When this rule is relevant, follow these behaviors:
 - Keep sentences concise
 - Avoid unnecessary jargon
 - Maintain smooth flow
+- Preserve factual accuracy and cite sources when transforming sourced material.
 
 ## Constraints
 
 - Do not skip sections
 - Avoid repetition
 - Prioritize conciseness
+- Do not add unsupported claims to make the narrative more dramatic.
 
 ## Codex execution notes
 
+- Follow the shared standards in `../../GLOBAL-RULE-STANDARDS.md`.
 - Apply this rule only when the user request clearly matches the rule purpose.
 - Do not force this rule onto unrelated tasks.
 - Keep the final output practical, concise, and directly usable.

@@ -38,20 +38,26 @@ When this rule is relevant, follow these behaviors:
 - Text aligned with style guide
 - Optional bullet structure
 - Clean, professional response
+- Style assumptions when no tone guide is provided
+- Before/after notes when editing existing text
 
 ## Instructions
 
 - Apply the defined tone to all input
 - Check for style inconsistencies
 - Adjust language, structure, and formatting
+- Preserve factual meaning, required terminology, and compliance language.
+- Ask for or infer the target audience only when it materially affects tone.
 
 ## Constraints
 
 - Do not deviate from the selected tone
 - Maintain clarity
+- Do not sacrifice accuracy or accessibility for style.
 
 ## Codex execution notes
 
+- Follow the shared standards in `../../GLOBAL-RULE-STANDARDS.md`.
 - Apply this rule only when the user request clearly matches the rule purpose.
 - Do not force this rule onto unrelated tasks.
 - Keep the final output practical, concise, and directly usable.

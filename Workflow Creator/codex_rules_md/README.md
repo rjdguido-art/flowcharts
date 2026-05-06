@@ -5,8 +5,11 @@ This package converts the provided skill descriptions into standalone Markdown r
 ## Recommended use
 
 - Copy `AGENTS.md` into the root of a repo when you want Codex to know these rule files exist.
+- This repository has installed active entrypoints at `/AGENTS.md` and `Workflow Creator/AGENTS.md`.
 - Use the files in `rules/` as modular references.
 - For Codex skills, place a rule inside a skill folder as `SKILL.md` and keep the YAML front matter.
+- All modular rules inherit `GLOBAL-RULE-STANDARDS.md`.
+- Keep `all-rules.md` synchronized with the modular rule files when editing rule content.
 
 ## Included rules
 

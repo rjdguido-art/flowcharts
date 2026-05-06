@@ -37,6 +37,8 @@ When this rule is relevant, follow these behaviors:
 - Goal
 - Stepwise actions
 - Tools and instructions
+- Dependencies, owners, and approval gates
+- Failure handling and verification checkpoints
 
 ## Instructions
 
@@ -44,14 +46,19 @@ When this rule is relevant, follow these behaviors:
 - Break it into steps
 - Assign tools
 - Optimize for efficiency
+- Identify steps that can run in parallel versus steps that depend on previous results.
+- Add human approval points for irreversible, costly, security-sensitive, or production-impacting actions.
+- Include success criteria for each workflow phase.
 
 ## Constraints
 
 - Avoid vague instructions
 - Maintain logical flow
+- Do not automate unsafe actions without explicit approval and rollback planning.
 
 ## Codex execution notes
 
+- Follow the shared standards in `../../GLOBAL-RULE-STANDARDS.md`.
 - Apply this rule only when the user request clearly matches the rule purpose.
 - Do not force this rule onto unrelated tasks.
 - Keep the final output practical, concise, and directly usable.

@@ -37,20 +37,29 @@ When this rule is relevant, follow these behaviors:
 - Key insights
 - Supporting details
 - Summary paragraph
+- Source references for factual claims when available
+- Confidence levels or caveats for uncertain findings
+- Open questions or missing data
 
 ## Instructions
 
 - Identify key points
 - Remove irrelevant content
 - Organize logically
+- Group evidence by theme and strength.
+- Preserve important dissenting or conflicting evidence.
+- Separate source-supported findings from synthesis and recommendations.
 
 ## Constraints
 
 - Avoid generic summaries
 - Focus on utility
+- Do not omit material contradictions.
+- Do not overstate certainty beyond the evidence.
 
 ## Codex execution notes
 
+- Follow the shared standards in `../../GLOBAL-RULE-STANDARDS.md`.
 - Apply this rule only when the user request clearly matches the rule purpose.
 - Do not force this rule onto unrelated tasks.
 - Keep the final output practical, concise, and directly usable.

@@ -34,23 +34,29 @@ When this rule is relevant, follow these behaviors:
 
 ## Output requirements
 
-- Issues found
-- Suggested fixes
-- Optional summary
+- Findings first, ordered by severity
+- File and line references for each finding when available
+- Suggested fixes or mitigation
+- Test gaps and residual risk
+- Optional summary after findings
 
 ## Instructions
 
-- Analyze code line by line
-- Highlight errors or inefficiencies
-- Suggest improvements
+- Analyze the changed or relevant code path before commenting.
+- Prioritize bugs, regressions, security issues, data loss, performance risks, and missing tests over style preferences.
+- Cite concrete evidence with file paths, line numbers, inputs, outputs, or failing scenarios.
+- If no issues are found, say so clearly and mention remaining verification limits.
 
 ## Constraints
 
 - Maintain accuracy
 - Avoid false positives
+- Do not invent file references, test results, or behavior.
+- Do not bury findings under a long summary.
 
 ## Codex execution notes
 
+- Follow the shared standards in `../../GLOBAL-RULE-STANDARDS.md`.
 - Apply this rule only when the user request clearly matches the rule purpose.
 - Do not force this rule onto unrelated tasks.
 - Keep the final output practical, concise, and directly usable.

@@ -40,6 +40,8 @@ When this rule is relevant, follow these behaviors:
 - Bullet points
 - Hooks
 - Conclusion
+- Audience, offer, channel, and conversion goal
+- Claims or proof points separated from creative language
 
 ## Instructions
 
@@ -47,14 +49,18 @@ When this rule is relevant, follow these behaviors:
 - Organize main points clearly
 - Include an actionable CTA
 - Avoid unnecessary filler
+- Keep claims accurate, specific, and supportable.
+- Match CTA strength to the user intent and funnel stage.
 
 ## Constraints
 
 - Maintain readability
 - Do not overcomplicate the copy
+- Do not create deceptive urgency, false scarcity, or unsupported performance claims.
 
 ## Codex execution notes
 
+- Follow the shared standards in `../../GLOBAL-RULE-STANDARDS.md`.
 - Apply this rule only when the user request clearly matches the rule purpose.
 - Do not force this rule onto unrelated tasks.
 - Keep the final output practical, concise, and directly usable.

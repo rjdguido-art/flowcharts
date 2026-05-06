@@ -39,6 +39,8 @@ When this rule is relevant, follow these behaviors:
 - Platform-specific content
 - Structured sections
 - Engaging headlines/hooks
+- Source message and audience assumptions
+- Notes on any edits, compression, or omitted details
 
 ## Instructions
 
@@ -46,15 +48,19 @@ When this rule is relevant, follow these behaviors:
 - Identify key points
 - Rewrite in the target format
 - Keep consistent tone and readability
+- Preserve quotes, claims, and attribution when source material requires it.
+- Adapt length, CTA, and formatting to the named platform or channel.
 
 ## Constraints
 
 - Preserve meaning
 - Avoid verbosity
 - Format must match the channel style
+- Do not turn uncertain or nuanced claims into absolute claims.
 
 ## Codex execution notes
 
+- Follow the shared standards in `../../GLOBAL-RULE-STANDARDS.md`.
 - Apply this rule only when the user request clearly matches the rule purpose.
 - Do not force this rule onto unrelated tasks.
 - Keep the final output practical, concise, and directly usable.

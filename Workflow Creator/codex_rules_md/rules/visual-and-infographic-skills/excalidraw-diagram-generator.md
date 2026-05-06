@@ -37,6 +37,9 @@ When this rule is relevant, follow these behaviors:
 - Diagram title
 - Nodes and connections
 - Layout suggestion
+- Output format, such as outline, Mermaid, or Excalidraw JSON, when requested
+- Node ids, labels, types, and connection labels for complex diagrams
+- Assumptions and omitted details
 
 ## Instructions
 
@@ -44,14 +47,20 @@ When this rule is relevant, follow these behaviors:
 - Create nodes
 - Connect nodes logically
 - Suggest a layout
+- Keep node labels short and action-oriented.
+- Use consistent directionality and group related nodes.
+- Ask or state the target format before producing tool-specific JSON when unclear.
 
 ## Constraints
 
 - Avoid clutter
 - Maintain clarity
+- Do not claim a diagram is valid Excalidraw JSON unless the JSON structure is actually produced.
+- Avoid crossing connectors when a simpler layout is possible.
 
 ## Codex execution notes
 
+- Follow the shared standards in `../../GLOBAL-RULE-STANDARDS.md`.
 - Apply this rule only when the user request clearly matches the rule purpose.
 - Do not force this rule onto unrelated tasks.
 - Keep the final output practical, concise, and directly usable.
