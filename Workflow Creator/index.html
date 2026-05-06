@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Workflow Map Creator</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="app" data-theme="light">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">W</span>
+          <div>
+            <h1>Workflow Map Creator</h1>
+            <p id="statusText">Ready</p>
+          </div>
+        </div>
+
+        <div class="topbar-actions" role="toolbar" aria-label="Workflow actions">
+          <button class="icon-button" id="undoBtn" title="Undo" aria-label="Undo">↶</button>
+          <button class="icon-button" id="redoBtn" title="Redo" aria-label="Redo">↷</button>
+          <span class="divider"></span>
+          <button class="tool-button active" data-mode="select" title="Select and move">Select</button>
+          <button class="tool-button" data-mode="connect" title="Connect nodes">Connect</button>
+          <button class="tool-button" data-mode="pan" title="Pan canvas">Pan</button>
+          <span class="divider"></span>
+          <button class="icon-button" id="fitBtn" title="Fit view" aria-label="Fit view">⌖</button>
+          <button class="icon-button" id="centerBtn" title="Center origin" aria-label="Center origin">◎</button>
+          <button class="icon-button" id="themeBtn" title="Toggle theme" aria-label="Toggle theme">◐</button>
+        </div>
+
+        <div class="file-actions">
+          <button id="exportBtn">Export</button>
+          <label class="file-label">
+            Import
+            <input id="importInput" type="file" accept="application/json">
+          </label>
+          <button id="clearBtn" class="danger">Clear</button>
+        </div>
+      </header>
+
+      <aside class="sidebar left-panel">
+        <section>
+          <h2>Nodes</h2>
+          <div class="node-grid">
+            <button class="node-template" data-type="start" draggable="true"><span class="swatch start"></span>Start</button>
+            <button class="node-template" data-type="task" draggable="true"><span class="swatch task"></span>Task</button>
+            <button class="node-template" data-type="decision" draggable="true"><span class="swatch decision"></span>Decision</button>
+            <button class="node-template" data-type="data" draggable="true"><span class="swatch data"></span>Data</button>
+            <button class="node-template" data-type="delay" draggable="true"><span class="swatch delay"></span>Delay</button>
+            <button class="node-template" data-type="end" draggable="true"><span class="swatch end"></span>End</button>
+          </div>
+        </section>
+
+        <section>
+          <h2>Canvas</h2>
+          <div class="control-row">
+            <label for="zoomRange">Zoom</label>
+            <input id="zoomRange" type="range" min="35" max="180" value="100">
+            <output id="zoomOutput">100%</output>
+          </div>
+          <div class="control-row">
+            <label for="gridToggle">Grid</label>
+            <input id="gridToggle" type="checkbox" checked>
+          </div>
+          <div class="control-row">
+            <label for="snapToggle">Snap</label>
+            <input id="snapToggle" type="checkbox" checked>
+          </div>
+          <div class="control-row">
+            <label for="edgeStyle">Edges</label>
+            <select id="edgeStyle">
+              <option value="smooth">Smooth</option>
+              <option value="straight">Straight</option>
+              <option value="step">Step</option>
+            </select>
+          </div>
+          <button id="autoLayoutBtn" class="wide">Auto layout</button>
+        </section>
+
+        <section>
+          <h2>Search</h2>
+          <input id="searchInput" type="search" placeholder="Find nodes">
+          <div id="searchResults" class="search-results"></div>
+        </section>
+      </aside>
+
+      <main class="workspace">
+        <div class="canvas-wrap" id="canvasWrap">
+          <div class="grid-layer" id="gridLayer"></div>
+          <svg class="edge-layer" id="edgeLayer" aria-hidden="true"></svg>
+          <div class="node-layer" id="nodeLayer" aria-label="Workflow canvas"></div>
+          <div class="selection-box" id="selectionBox"></div>
+        </div>
+        <div class="floating-help">
+          <kbd>Space</kbd> pan
+          <kbd>C</kbd> connect
+          <kbd>Del</kbd> delete
+          <kbd>⌘/Ctrl Z</kbd> undo
+        </div>
+      </main>
+
+      <aside class="sidebar right-panel">
+        <section>
+          <h2>Inspector</h2>
+          <div id="emptyInspector" class="empty-state">Select a node or connection to edit it.</div>
+          <div id="multiInspector" class="inspector hidden">
+            <p><strong id="selectedCount">0</strong> nodes selected</p>
+            <div class="button-row">
+              <button type="button" id="duplicateMultiBtn">Duplicate</button>
+              <button type="button" id="deleteMultiBtn" class="danger">Delete</button>
+            </div>
+          </div>
+          <form id="nodeInspector" class="inspector hidden">
+            <label>
+              Title
+              <input id="nodeTitle" type="text">
+            </label>
+            <label>
+              Type
+              <select id="nodeType">
+                <option value="start">Start</option>
+                <option value="task">Task</option>
+                <option value="decision">Decision</option>
+                <option value="data">Data</option>
+                <option value="delay">Delay</option>
+                <option value="end">End</option>
+              </select>
+            </label>
+            <label>
+              Notes
+              <textarea id="nodeNotes" rows="5"></textarea>
+            </label>
+            <div class="two-col">
+              <label>
+                X
+                <input id="nodeX" type="number">
+              </label>
+              <label>
+                Y
+                <input id="nodeY" type="number">
+              </label>
+            </div>
+            <div class="button-row">
+              <button type="button" id="duplicateBtn">Duplicate</button>
+              <button type="button" id="addLinkedBtn">Link child</button>
+            </div>
+            <button type="button" id="deleteNodeBtn" class="danger wide">Delete node</button>
+          </form>
+          <form id="edgeInspector" class="inspector hidden">
+            <label>
+              Label
+              <input id="edgeLabel" type="text">
+            </label>
+            <label>
+              Tone
+              <select id="edgeTone">
+                <option value="default">Default</option>
+                <option value="success">Success</option>
+                <option value="warning">Warning</option>
+                <option value="danger">Danger</option>
+              </select>
+            </label>
+            <button type="button" id="deleteEdgeBtn" class="danger wide">Delete connection</button>
+          </form>
+        </section>
+
+        <section>
+          <h2>Overview</h2>
+          <div class="stats">
+            <span><strong id="nodeCount">0</strong> nodes</span>
+            <span><strong id="edgeCount">0</strong> links</span>
+          </div>
+          <div class="mini-map" id="miniMap"></div>
+        </section>
+
+        <section>
+          <h2>Document</h2>
+          <label>
+            Map name
+            <input id="mapName" type="text" value="Untitled Workflow">
+          </label>
+          <button id="saveLocalBtn" class="wide">Save locally</button>
+          <button id="loadLocalBtn" class="wide">Load saved</button>
+        </section>
+      </aside>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
